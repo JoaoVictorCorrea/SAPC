@@ -1,0 +1,114 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body id="body-pd">
+	    <div th:replace="~{base :: header}"></div>
+	    <div th:replace="~{base :: sidebar}"></div>
+	    
+	    	<div class="row">
+	            <div class="col-lg-12">
+	                <h3 class="pb-2 mt-4 mb-2 border-bottom">Parâmetros</h3>
+	                <nav aria-label="breadcrumb">
+		                <ol class="breadcrumb">
+		                    <li class="breadcrumb-item"><a class="black "th:href="@{/home}">Home</a></li>
+		                    <li class="breadcrumb-item"><a class="black" th:href="@{/morador}">Moradores</a></li>
+		                    <li class="breadcrumb-item" aria-current="page">Adicionar</li>
+		                </ol>
+		          	</nav>
+	            </div>
+        	</div>
+	    
+	    	<div class="row justify-content-around">
+		        <div class="card col-md-9">
+		        	<form th:object="${moradorDto}" id="moradorForm" method="POST" class="card-body">
+		        	<h3 class="col-md-12 text-center mb-5">Adicionar Novo Morador</h3>
+		        	
+					    <div class="row mb-3">
+					    	<div class="col-md-6">
+					         	<label for="first">Nome completo</label>
+					        	<input type="text" class="form-control" name="nome" placeholder="Digite o nome do morador">
+					      	</div>
+					      	<div class="col-md-6">
+					          	<label>Email</label>
+					          	<input type="email" class="form-control" name="email" id="email" placeholder="email@exemplo.com">
+					        </div>
+					    </div>
+					
+					
+					    <div class="row mb-3">
+					    	<div class="col-md-6">
+					        	<label for="company">CPF</label>
+					          	<input type="text" class="form-control" name="cpf" id="cpf" placeholder="000.000.000-00">
+					      	</div>
+					 		<div class="col-md-6"> 
+						    	<label for="phone">Telefone</label>
+						        <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="(00) 00000-0000">
+					        </div>
+					    </div>
+					
+					
+					    <div class="row mb-3">
+					      	<div class="col-md-6">
+					        	<label for="email">Número da Residência</label>
+					          	<input type="number" class="form-control" name="residencia.numero" id="residencia" placeholder="Digite a residência do morador">
+					   		</div>
+					  		<div class="col-md-6">
+					      		<label for="url">Data de Nascimento</label>
+					          	<input type="date" class="form-control" name="dataNasc" id="birth-date" placeholder="00/00/0000">
+					      	</div>
+					    </div>
+					    
+						<div class="row mb-3">
+							<div class="col-md-3">
+						    	<label for="bloco">Bloco:</label>
+							    <select class="form-control" name="residencia.bloco" id="bloco">
+							      <option value="">Selecione um bloco</option>
+							      <option th:each="bloco : ${bloco}" th:value="${bloco}" th:text="${bloco}"></option>
+							    </select>
+						    </div>
+						    <div class="col-md-3">
+						    	<label for="bloco">Sindico:</label>
+							    <select class="form-control" name="sindico">
+							    	<option value="">Selecione uma opção</option>
+									<option value="true">Sim</option>
+									<option value="false">Não</option>
+								</select>
+						    </div>
+					   	</div>
+									    
+					
+						<div class="d-flex justify-content-end">
+					    	<button type="submit" class="btn btn-gold">Enviar</button>
+					    </div>
+					</form>
+		        </div>
+		        
+		        <div class="card col-md-2 border border-secondary">
+		        	<div class="card-body">
+		        		<h4 class="text-center mb-5">Histórico</h4>
+		        		<ul class="list-group list-overflow">
+		        			<li class="list-group-item list-group-item-success mb-2 text-center">Igor</li>
+		        			<li class="list-group-item list-group-item-danger mb-2 text-center">Julio</li>
+		        		</ul>
+		        	</div>
+		        </div>
+	        </div>
+	    
+	    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.min.js"></script>
+	    <script th:replace="~{base :: sidebar-script}"></script>
+	    <script>
+	    $(document).ready(function(){
+	    	  
+	    	  $('#telefone').mask('(00) 00000-0000');
+	    	  $('#cpf').mask('000.000.000-00');
+	    	  $('#residencia').mask('000');
+	    });
+	    
+	    $("#moradorForm").submit(function() {
+	    	  $('#birth-date').unmask();
+	    	  $('#telefone').unmask();
+	    	  $('#cpf').unmask();
+	    	  $('#residencia').unmask();
+	    });
+	    </script>
+	</body>
+</html>

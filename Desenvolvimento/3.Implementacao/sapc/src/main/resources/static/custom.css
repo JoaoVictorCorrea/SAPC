@@ -1,0 +1,52 @@
+.black {
+	color:#212529 !important;
+}
+
+.black:hover{
+	color: #BC985C !important;
+}
+
+.gold {
+	color: #BC985C;
+}
+
+.gold:hover{
+	color: #9b7d4c;
+}
+
+.btn-gold{
+	color: #fff !important;
+    background-color: #BC985C !important;
+    border-color: #BC985C !important;
+}
+
+.sidebar-logo{
+   max-width:200px;
+   max-height:150px;
+   width: auto;
+   height: auto;
+}
+
+.icon {
+  display: inline-block !important;
+  width: 16px !important; 
+  height: 16px !important; 
+  background-image: url(images/Icone.ico) !important; 
+}
+
+th, td{
+	text-align: center !important;
+}
+
+th a{
+	color: #BC985C;
+}
+
+th a:hover{
+	color: #9b7d4c;
+}
+
+.list-overflow{
+	max-height:400px;
+    overflow-y:auto;
+}
