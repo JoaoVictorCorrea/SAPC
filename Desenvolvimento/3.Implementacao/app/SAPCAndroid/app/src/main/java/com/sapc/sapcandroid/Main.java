@@ -92,6 +92,7 @@ public class Main extends AppCompatActivity {
                 soli.putExtra("usuario", nome_usuarios_externos.get(position));
                 soli.putExtra("tipo", tipo_usuarios_externos.get(position));
                 soli.putExtra("id", ids.get(position));
+                soli.putExtra("codAuthentication", codAuthetication);
                 Log.e("solic", "FOI 1");
                 startActivity(soli);
             }
