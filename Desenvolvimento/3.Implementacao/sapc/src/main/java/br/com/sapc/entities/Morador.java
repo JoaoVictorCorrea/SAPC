@@ -55,9 +55,6 @@ public class Morador{
 	@NotNull(message = "Escolha uma opção válida")
 	private Boolean sindico;
 	private String senha;
-	
-	@Column(unique = true)
-	private String pin;
 
 	public Long getId() {
 		return id;
@@ -130,23 +127,5 @@ public class Morador{
 	public void setResidencia(Residencia residencia) {
 		this.residencia = residencia;
 	}
-
-	public String getPin() {
-		return pin;
-	}
-
-	public void setPin(String pin) {
-		this.pin = pin;
-	}
-
-	
-	
-	
-	
-	
-
-	
-	
-	
 }
 

@@ -116,6 +116,7 @@ public class MoradorController {
 			return "morador/moradorForm";
 		}
 		
+		morador.setSenha(morador.getCpf());
 		moradorService.adicionarMorador(morador);
 		redirectAttributes.addFlashAttribute("mensagem", "Cadastrado com sucesso!");
 		return "redirect:/morador?success";
