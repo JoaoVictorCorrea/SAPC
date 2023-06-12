@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sapc.sapcandroid.R;
 import com.sapc.sapcandroid.model.Conexao;
@@ -87,16 +88,22 @@ public class Main extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent soli = new Intent(getApplicationContext(), solicitacaotela.class);
-                soli.putExtra("nome", nome);
-                soli.putExtra("usuario", nome_usuarios_externos.get(position));
-                soli.putExtra("tipo", tipo_usuarios_externos.get(position));
-                soli.putExtra("id", ids.get(position));
-                soli.putExtra("codAuthentication", codAuthetication);
-                soli.putExtra("data", datas_solicitacoes.get(position));
-                soli.putExtra("idExterno", idsExternos.get(position));
-                Log.e("solic", "FOI 1");
-                startActivity(soli);
+                String statusSolicitacao = status.get(position);
+                if (statusSolicitacao.equals("PENDENTE")) {
+                    Intent soli = new Intent(getApplicationContext(), solicitacaotela.class);
+                    soli.putExtra("nome", nome);
+                    soli.putExtra("usuario", nome_usuarios_externos.get(position));
+                    soli.putExtra("tipo", tipo_usuarios_externos.get(position));
+                    soli.putExtra("id", ids.get(position));
+                    soli.putExtra("codAuthentication", codAuthetication);
+                    soli.putExtra("data", datas_solicitacoes.get(position));
+                    soli.putExtra("idExterno", idsExternos.get(position));
+                    Log.e("solic", "FOI 1");
+                    startActivity(soli);
+                } else {
+                    String statusFormatado = statusSolicitacao.toLowerCase();
+                    Toast.makeText(Main.this, "O status da solicitação já foi " + statusFormatado, Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
