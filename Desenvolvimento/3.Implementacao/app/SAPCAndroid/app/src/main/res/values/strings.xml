@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">SAPC</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="trocar">Primeiro acesso? Clique aqui para trocar a senha</string>
+    <string name="senha">Senha</string>
+    <string name="erro_no_login">Erro no login</string>
+    <string name="cadastro">Cadastro</string>
+    <string name="nome">Nome</string>
+    <string name="logout">Logout</string>
+    <string name="buscar_usu_rio">Buscar usuário</string>
+    <string name="sapc">SAPC</string>
+    <string name="sapc_nbem_vindo">     SAPC\nBEM VINDO</string>
+    <string name="sair">Sair</string>
+    <string name="mudan_a_de_senha">Mudança de senha</string>
+    <string name="senha_antiga">Senha antiga</string>
+    <string name="senha_nova">Senha nova</string>
+    <string name="enviar">Enviar</string>
+    <string name="confirmar">Confirmar senha</string>
+    <string name="soli">Olá, -Morador-, o -Usuario- está solicitando acesso para -Tipo-</string>
+</resources>
