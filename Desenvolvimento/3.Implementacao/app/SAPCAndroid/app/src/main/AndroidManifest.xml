@@ -16,19 +16,19 @@
         android:theme="@style/Theme.SAPCAndroid"
         tools:targetApi="31">
         <activity
-            android:name=".solicitacaotela"
+            android:name=".controller.solicitacaotela"
             android:exported="false"
             android:theme="@style/Theme.AppCompat"/>
         <activity
-            android:name=".Main"
+            android:name=".controller.Main"
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".Trocar"
+            android:name=".controller.Trocar"
             android:exported="false"
             android:theme="@style/Theme.AppCompat" />
         <activity
-            android:name=".Login"
+            android:name=".controller.Login"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat">
