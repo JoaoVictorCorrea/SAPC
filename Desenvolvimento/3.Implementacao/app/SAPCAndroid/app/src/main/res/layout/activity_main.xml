@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".Main">
+    tools:context=".controller.Main">
 
     <View
         android:id="@+id/header"

@@ -1,4 +1,4 @@
-package com.sapc.sapcandroid;
+package com.sapc.sapcandroid.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,12 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.sapc.sapcandroid.databinding.ActivityMainBinding;
+import com.sapc.sapcandroid.R;
 import com.sapc.sapcandroid.model.Conexao;
 
 import java.sql.Connection;
@@ -36,6 +34,7 @@ public class Main extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         List<Integer> ids = new ArrayList<Integer>();
+        List<Integer> idsExternos = new ArrayList<Integer>();
         List<String> nome_usuarios_externos = new ArrayList<String>();
         List<String> tipo_usuarios_externos = new ArrayList<String>();
         List<String> datas_solicitacoes = new ArrayList<String>();
@@ -55,7 +54,7 @@ public class Main extends AppCompatActivity {
 
         try {
             Statement stm = con.createStatement();
-            String queryLogin = "SELECT s.id, m.nome, u.nome, s.tipo_usuario_externo, s.data_solicitacao, s.status from tb_solicitacaodeentrada s INNER JOIN tb_residencia r ON (s.residencia_id=r.id) INNER JOIN tb_morador m ON (m.residencia_id = r.id) INNER JOIN tb_usuarioexterno u ON (u.id=s.usuario_externo_id) WHERE m.id = "+ codAuthetication;
+            String queryLogin = "SELECT s.id, m.nome, u.nome, s.tipo_usuario_externo, s.data_solicitacao, s.status_solicitacao, u.id from tb_solicitacaodeentrada s INNER JOIN tb_residencia r ON (s.residencia_id=r.id) INNER JOIN tb_morador m ON (m.residencia_id = r.id) INNER JOIN tb_usuarioexterno u ON (u.id=s.usuario_externo_id) WHERE m.id = "+ codAuthetication;
             ResultSet rs = stm.executeQuery(queryLogin);
             Log.d("MyAppMain", "Debug 3");
 
@@ -67,6 +66,7 @@ public class Main extends AppCompatActivity {
                 tipo_usuarios_externos.add(rs.getString(4));
                 datas_solicitacoes.add(rs.getString(5));
                 status.add(rs.getString(6));
+                idsExternos.add(rs.getInt(7));
                 Log.d("MyAppMain", "Debug 4");
             }
         } catch (SQLException e) {
@@ -76,7 +76,7 @@ public class Main extends AppCompatActivity {
         txtMensagem.setText("Olá, " + nome);
         ArrayList<Solicitacao> solicitacaoArrayList = new ArrayList<>();
         for(int i = 0; i < ids.size(); i++){
-            Solicitacao solicitacao = new Solicitacao(nome_usuarios_externos.get(i), datas_solicitacoes.get(i), tipo_usuarios_externos.get(i), ids.get(i), status.get(i));
+            Solicitacao solicitacao = new Solicitacao(nome_usuarios_externos.get(i), datas_solicitacoes.get(i), tipo_usuarios_externos.get(i), ids.get(i), status.get(i), idsExternos.get(i));
             solicitacaoArrayList.add(solicitacao);
             Log.d("MyAppMain", "Debug 5");
         }
@@ -93,6 +93,8 @@ public class Main extends AppCompatActivity {
                 soli.putExtra("tipo", tipo_usuarios_externos.get(position));
                 soli.putExtra("id", ids.get(position));
                 soli.putExtra("codAuthentication", codAuthetication);
+                soli.putExtra("data", datas_solicitacoes.get(position));
+                soli.putExtra("idExterno", idsExternos.get(position));
                 Log.e("solic", "FOI 1");
                 startActivity(soli);
             }
