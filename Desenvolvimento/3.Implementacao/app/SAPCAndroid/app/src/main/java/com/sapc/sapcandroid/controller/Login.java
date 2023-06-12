@@ -1,10 +1,9 @@
-package com.sapc.sapcandroid;
+package com.sapc.sapcandroid.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,15 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sapc.sapcandroid.R;
 import com.sapc.sapcandroid.model.Conexao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import javax.xml.transform.Result;
 
 
 public class Login extends AppCompatActivity {

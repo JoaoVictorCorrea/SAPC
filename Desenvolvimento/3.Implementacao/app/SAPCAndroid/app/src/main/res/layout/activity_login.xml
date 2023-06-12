@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:gravity="center"
     android:orientation="vertical"
-    tools:context=".Login">
+    tools:context=".controller.Login">
 
     <ImageView
         android:id="@+id/logo"
