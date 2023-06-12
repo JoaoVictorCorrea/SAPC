@@ -1,0 +1,244 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body id="body-pd">
+	    <div th:replace="~{base :: header}"></div>
+	    <div th:replace="~{base :: sidebar}"></div>
+	    
+	    <section class="wrapper">
+			
+			<!-- Parâmetros da url -->
+			<div class="row">
+				<div class="col-lg-12">
+	                <div class="d-flex justify-content-between">
+	            		<h3 class="pb-2 mt-4 mb-2 border-bottom">Parâmetros</h3>
+	                	<div id="mensagemAviso" class="alert d-none align-items-center gap-2 mt-3">
+	                		<i id="iconeAviso" class="bx"></i>
+	                		<span th:text="${mensagem}"></span>
+	                	</div>
+	            	</div>
+	                <nav aria-label="breadcrumb">
+		                <ol class="breadcrumb">
+		                    <li class="breadcrumb-item"><a class="black" th:href="@{/home}">Home</a></li>
+		                    <li class="breadcrumb-item" aria-current="page">Fluxo</li>
+		                </ol>
+		          	</nav>
+	            </div>
+        	</div>
+        	
+        	<!-- Painel com botão Filtrar -->
+		    <div class="row">
+		        <div class="col-lg-12">
+		            <section class="card mb-3">
+		                
+		                <div class="d-flex justify-content-between card-footer">
+		                	<h3 class="pt-3">Fluxo de entrada / saída</h3>
+	                        <form th:action="@{/parameters/countries}" class="d-flex mt-3" >
+	                            <div class="pe-3">
+	                                <input type="text" name="keyword" class="form-control">
+	                            </div>
+	                            <div class="col-4">
+	                                <input type="submit" value="Filtrar" class="btn-success form-control">
+	                            </div>
+	                        </form>
+		               	</div>
+		                    
+		            </section>
+		    	</div>
+		    </div>
+		    
+		    <!-- Tabela de Fluxo -->
+            <section class="card">
+            
+                <table id="tabela" class="table table-striped table-advance table-hover">
+                    <tbody>
+                    <tr>
+                        <th></th>
+                        <th><i class="bx bx-id-card"></i> <a th:href="@{'/fluxo/page/' + ${currentPage} + '/id?sortDir=' + ${reverseSortDir}}">Id</a></th>
+                        <th><i class="bx bx-user-circle"></i> <a href="#">Nome</a></th>
+                        <th><i class="bx bx-clipboard"></i> <a href="#">Tipo</a></th>
+                        <th><i class="bx bx-time"></i> <a th:href="@{/fluxo/page/{pageNumber}/{field}(pageNumber=${currentPage}, field='dataEntrada')} + '?sortDir=' + ${reverseSortDir}">Data de Entrada</a></th>
+                        <th><i class="bx bx-time-five"></i> <a th:href="@{'/fluxo/page/' + ${currentPage} + '/dataSaida?sortDir=' + ${reverseSortDir}}">Data de Saída</a></th>
+                        <th><i class="bx bx-search"></i><a href="">Ações</a></th>
+                    </tr>
+                    <tr th:each="fluxo : ${listaFluxos}">
+                        <td></td>
+                        <td th:text="${fluxo.id}"></td>
+	                    <td th:text="${fluxo.morador != null && fluxo.usuarioExterno == null ? fluxo.morador.nome : fluxo.usuarioExterno.nome}"></td>
+	                    <td>
+	                    	<span th:if="${fluxo.morador != null}">MORADOR</span>
+	                    	<span th:if="${fluxo.usuarioExterno != null}">USUARIO EXTERNO</span>
+	                    </td>	
+                        <td th:text="${#temporals.format(fluxo.dataEntrada, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                        <td th:text="${#temporals.format(fluxo.dataSaida, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                        <td class="text-center">
+                            <a th:if="${fluxo.dataSaida == null}" class="btn btn-success btn-sm" th:href="@{'/fluxo/adicionar-saida/' + ${fluxo.id}}" role="button">Adicionar Saída</a>
+                            <a th:if="${fluxo.dataSaida != null}" class="btn btn-secondary btn-sm ">Adicionar Saída</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <footer class="card-footer d-flex justify-content-between">
+                    <nav aria-label="Page navigation example">
+                    	Total de itens [[${totalItems}]] : Página [[${currentPage}]] de [[${totalPages}]]
+	                    <ul class="pagination">
+	                    	<li class="page-item">
+                                <a class="page-link" th:if="${currentPage > 1}" th:href="${sortDir != null and field != null}
+	                                ? @{/fluxo/page/1/{field}(field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+	                                : @{/fluxo/page/1}">
+	                                Primeira
+                                </a>
+                                <span class="page-link" th:unless="${currentPage > 1}">Primeira</span>
+	                    	</li>
+   						 	<li class="page-item">
+   						 		<a class="page-link" th:if="${currentPage > 1}" th:href="${sortDir != null and field != null}
+	   						 		? @{/fluxo/page/{pageNumber}/{field}(pageNumber=${currentPage - 1},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+	   						 		: @{'/fluxo/page/' + ${currentPage - 1}}">
+	   						 		Anterior
+   						 		</a>
+                                <span class="page-link" th:unless="${currentPage > 1}">Anterior</span>
+   						 	</li>
+	                    	<li class="page-item d-flex">
+	                    		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                                     <a class="page-link" th:href="${sortDir != null and field != null}
+										? @{/fluxo/page/{pageNumber}/{field}(pageNumber=${i},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+										: @{/fluxo/page/{pageNumber}(pageNumber=${i})}">
+										[[${i}]]
+									</a>
+                                </span>
+                            </li>
+						    <li class="page-item">
+						    	<a class="page-link" th:if="${currentPage < totalPages}" th:href="${sortDir != null and field != null}
+						    		? @{/fluxo/page/{pageNumber}/{field}(pageNumber=${currentPage + 1},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+						    		: @{'/fluxo/page/' + ${currentPage + 1}}">
+						    		Próximo
+						    	</a>
+                                <span class="page-link" th:unless="${currentPage < totalPages}">Próximo</span>
+						    </li>
+						    <li class="page-item">
+						    	<a class="page-link" th:if="${currentPage < totalPages}" th:href="${sortDir != null and field != null}
+							    	? @{/fluxo/page/{pageNumber}/{field}(pageNumber=${totalPages},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+							    	: @{'/fluxo/page/' + ${totalPages}}">
+							    	Ultima
+						    	</a>
+                                <span class="page-link" th:unless="${currentPage < totalPages}">Ultima</span>
+						    </li>
+	                    									
+	                    </ul>
+	               	</nav> 
+	               	
+	               	<div>
+	               		<a data-bs-toggle="modal" class="btn btn-gold mt-2" data-bs-target="#exampleModal">Adicionar Fluxo de Morador</a>	
+	               	</div>	
+	               	
+	               	<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					   <div class="modal-dialog">
+					      <div class="modal-content bg-modal">
+					         <div class="modal-header">
+					            <h5 class="modal-title" id="exampleModalLabel">Adicionar FLuxo de Morador</h5>
+					            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					         </div>
+					         <form th:action="@{/fluxo/adicionar}" method="post">
+					            <div class="modal-body fs-5">
+					               <div class="row mb-3">
+					                  <div class="col-md-12">
+					                     <label for="nome" class="form-label">Nome do Morador</label>
+					                     <input type="text" class="form-control" id="nome" name="nome" list="sugestoes" autocomplete="off" placeholder="Digite o nome" oninput="buscarNomes(this.value)">
+					                     <datalist id="sugestoes"></datalist>
+					                  </div>
+					               </div>
+					               <div class="row mb-3">
+					                  <div class="col-md-12">
+							        	<label for="placaVeiculo">Placa do veículo</label>
+							          	<input type="text" class="form-control" name="placaVeiculo" id="placaVeiculo">
+					                  </div>
+					               </div>
+					            </div>
+					            <div class="modal-footer">
+					               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+					               <button type="submit" class="btn btn-success">Confirmar</button>
+					            </div>
+					         </form>
+					      </div>
+					   </div>
+					</div>
+                </footer>
+            </section>
+    
+		</section>
+	    
+	    <script th:replace="~{base :: sidebar-script}"></script>
+	    <script>
+		 // Requisição Ajax para buscar nomes de Moradores
+		    var timer;
+		    function buscarNomes(valor) {
+		      clearTimeout(timer);
+	
+		      if (valor.length > 2) { 
+		        timer = setTimeout(function() {
+		          $.ajax({
+		            url: '/fluxo/buscar-moradores',
+		            type: 'GET',
+		            data: {valor: valor},
+		            success: function(data) {
+		              atualizarSugestoes(data);
+		            }
+		          });
+		        }, 500);
+		      } else {
+		        limparSugestoes();
+		      }
+		    }
+	
+		    function limparSugestoes() {
+		      var datalist = document.getElementById('sugestoes');
+		      datalist.innerHTML = '';
+		    }
+	
+		    function atualizarSugestoes(nomes) {
+		      var datalist = document.getElementById('sugestoes');
+		      datalist.innerHTML = '';
+	
+		      nomes.forEach(function(nome) {
+		        var option = document.createElement('option');
+		        option.value = nome;
+		        datalist.appendChild(option);
+		      });
+		    }
+		    
+		 // Mensagem de Aviso
+		    $(document).ready(function() {
+			    var urlParams = new URLSearchParams(window.location.search);
+			    var mensagemAviso = $('#mensagemAviso span').text();
+			    if (urlParams.has('success') && mensagemAviso !== '') {
+			        exibirMensagem('success');
+			    } else if (urlParams.has('erro') && mensagemAviso !== ''){
+			    	exibirMensagem('erro');
+			    }
+			
+			    function exibirMensagem(mensagem) {
+			    	 var $mensagemAviso = $('#mensagemAviso');
+			    	 var $iconeAviso = $('#iconeAviso');
+			    	 if(mensagem == 'success'){
+			    		 $mensagemAviso.removeClass('d-none').addClass('d-flex alert-success').fadeIn();
+			    		 $iconeAviso.addClass('bx-check-circle');
+			    		 setTimeout(function() {
+					        	$mensagemAviso.fadeOut(function() {
+					                $(this).removeClass('d-flex').addClass('d-none');
+					            });
+					     }, 5000)
+			    	 } else {
+			    		 $mensagemAviso.removeClass('d-none alert-success').addClass('d-flex alert-danger').fadeIn();
+			    		 $iconeAviso.addClass('bx-error');
+			    		 setTimeout(function() {
+					        	$mensagemAviso.fadeOut(function() {
+					                $(this).removeClass('d-flex').addClass('d-none');
+					            });
+					     }, 5000)
+			    	 }
+			    }
+			});
+	    
+	    </script>
+	</body>
+</html>

@@ -12,33 +12,33 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 
-import br.com.sapc.entities.Morador;
-import br.com.sapc.repositories.MoradorRepository;
+import br.com.sapc.entities.UsuarioExterno;
+import br.com.sapc.repositories.UsuarioExternoRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 @Service
-public class MoradorServiceImpl implements MoradorService{
-	
+public class UsuarioExternoServiceImpl implements UsuarioExternoService{
+
 	@Autowired
-	private MoradorRepository moradorRepository;
+	private UsuarioExternoRepository usuarioExternoRepository;
 	
 	@Override
-	public List<Morador> findAll() {
-		return moradorRepository.findAll();
+	public List<UsuarioExterno> findAll() {
+		return usuarioExternoRepository.findAll();
 	}
 	
 	@Override
-	public Page<Morador> findPage(int pageNumber){
+	public Page<UsuarioExterno> findPage(int pageNumber){
 		Pageable pageable = PageRequest.of(pageNumber -1, 5);
-		return moradorRepository.findAll(pageable);
+		return usuarioExternoRepository.findAll(pageable);
 	}
 	
 	@Override
-	public Page<Morador> findAllWithSort(String field, String direction, int pageNumber){
+	public Page<UsuarioExterno> findAllWithSort(String field, String direction, int pageNumber){
 		Sort sort = getSortByField(field, direction);
 		Pageable pageable = PageRequest.of(pageNumber -1, 5, sort);
-		return moradorRepository.findAll(pageable);		
+		return usuarioExternoRepository.findAll(pageable);		
 	}
 	
 	@Override
@@ -58,29 +58,31 @@ public class MoradorServiceImpl implements MoradorService{
 	}
 
 	@Override
-	@Transactional
-	public void adicionarMorador(@Valid Morador morador) {
-		moradorRepository.save(morador);
+	public void adicionarUsuarioExterno(@Valid UsuarioExterno usuarioExterno) {
+		usuarioExternoRepository.save(usuarioExterno);
 	}
 	
 	@Override
-	public Optional<Morador> findById(Long id) {
-		return moradorRepository.findById(id);
+	public Optional<UsuarioExterno> findById(Long id) {
+		return usuarioExternoRepository.findById(id);
 	}
 
 	@Transactional
 	@Override
-	public void delete(Morador morador) {
-		moradorRepository.delete(morador);
+	public void delete(UsuarioExterno usuarioExterno) {
+		usuarioExternoRepository.delete(usuarioExterno);
 	}
 
 	@Override
 	public List<String> buscarNomes(String valor) {
-		return moradorRepository.buscarNomesPorValor(valor);
+		return usuarioExternoRepository.buscarNomesPorValor(valor);
+		
 	}
 
 	@Override
-	public Morador findByNome(String nome) {
-		return moradorRepository.findByNome(nome);
+	public UsuarioExterno findByNome(String nome) {
+		return usuarioExternoRepository.findByNome(nome);
 	}
+
+
 }

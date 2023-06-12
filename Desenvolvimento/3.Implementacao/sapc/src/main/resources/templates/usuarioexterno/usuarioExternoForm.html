@@ -4,39 +4,34 @@
 	    <div th:replace="~{base :: header}"></div>
 	    <div th:replace="~{base :: sidebar}"></div>
 	    
-	    	<!-- Parâmetros da url -->
 	    	<div class="row">
 	            <div class="col-lg-12">
 	                <h3 class="pb-2 mt-4 mb-2 border-bottom">Parâmetros</h3>
 	                <nav aria-label="breadcrumb">
 		                <ol class="breadcrumb">
 		                    <li class="breadcrumb-item"><a class="black "th:href="@{/home}">Home</a></li>
-		                    <li class="breadcrumb-item"><a class="black" th:href="@{/morador}">Moradores</a></li>
+		                    <li class="breadcrumb-item"><a class="black" th:href="@{/usuario-externo}">Usuários Externos</a></li>
 		                    <li class="breadcrumb-item" aria-current="page">Adicionar</li>
 		                </ol>
 		          	</nav>
 	            </div>
         	</div>
 	    
-	    	<!-- Formulário -->
 	    	<div class="row justify-content-around">
 		        <div class="card col-md-9">
-		        	<form th:object="${morador}" id="moradorForm" action="/morador/adicionar" method="POST" class="card-body">
-		        	<h3 class="col-md-12 text-center mb-5">Adicionar Novo Morador</h3>
+		        	<form th:object="${usuarioExterno}" id="usuarioExternoForm" method="POST" class="card-body">
+		        	<h3 class="col-md-12 text-center mb-5">Adicionar Novo Usuário Externo</h3>
 		        	
 					    <div class="row mb-3">
 					    	<div class="col-md-6">
 					         	<label for="nome">Nome completo</label>
-					        	<input type="text" th:field="*{nome}" th:errorclass="is-invalid" class="form-control" name="nome" placeholder="Digite o nome do morador">
-					       		<div class="invalid-feedback" th:errors="*{nome}"></div>
+					        	<input type="text" th:field="*{nome}" class="form-control" name="nome" id="nome" th:errorclass="is-invalid" placeholder="Digite o nome">
+					        	<div class="invalid-feedback" th:errors="*{nome}"></div>
 					      	</div>
 					      	<div class="col-md-6">
 					          	<label for="email">Email</label>
-					          	<div class="input-group has-validation">
-							    	<span class="input-group-text" id="inputGroupPrepend">@</span>
-							    	<input type="email" th:field="*{email}" class="form-control" id="email" th:errorclass="is-invalid" name="email" aria-describedby="inputGroupPrepend" placeholder="email@exemplo.com">
-									<div class="invalid-feedback" th:errors="*{email}"></div>
-							    </div>
+					          	<input type="email" th:field="*{email}" class="form-control" name="email" id="email" th:errorclass="is-invalid" placeholder="email@exemplo.com">
+					          	<div class="invalid-feedback" th:errors="*{email}"></div>
 					        </div>
 					    </div>
 					
@@ -45,49 +40,35 @@
 					    	<div class="col-md-6">
 					        	<label for="cpf">CPF</label>
 					          	<input type="text" th:field="*{cpf}" class="form-control" name="cpf" id="cpf" th:errorclass="is-invalid" placeholder="000.000.000-00">
-					          	<div class="invalid-feedback" th:errors="*{cpf}"></div>
+					      		<div class="invalid-feedback" th:errors="*{cpf}"></div>
 					      	</div>
 					 		<div class="col-md-6"> 
 						    	<label for="telefone">Telefone</label>
 						        <input type="tel" th:field="*{telefone}" class="form-control" name="telefone" id="telefone" th:errorclass="is-invalid" placeholder="(00) 00000-0000">
-						        <div class="invalid-feedback" th:errors="*{telefone}"></div>
+					        	<div class="invalid-feedback" th:errors="*{telefone}"></div>
 					        </div>
 					    </div>
 					
 					
 					    <div class="row mb-3">
 					      	<div class="col-md-6">
-					        	<label for="residencia">Número da Residência</label>
-					          	<input type="number" th:field="*{residencia.numero}" class="form-control" name="residencia.numero" id="residencia" th:errorclass="is-invalid" placeholder="Digite a residência do morador">
-					          	<div class="invalid-feedback" th:errors="*{residencia.numero}"></div>
+					        	<label for="empresa">Empresa</label>
+					          	<input type="text" th:field="*{empresa}" class="form-control" name="empresa" id="empresa" placeholder="Digite o nome da empresa">
 					   		</div>
 					  		<div class="col-md-6">
 					      		<label for="dataNasc">Data de Nascimento</label>
 					          	<input type="date" th:field="*{dataNasc}" class="form-control" name="dataNasc" id="dataNasc" th:errorclass="is-invalid" placeholder="00/00/0000">
-					          	<div class="invalid-feedback" th:errors="*{dataNasc}"></div>
+					      		<div class="invalid-feedback" th:errors="*{dataNasc}"></div>
 					      	</div>
 					    </div>
 					    
-						<div class="row mb-3">
-							<div class="col-md-3">
-						    	<label for="bloco">Bloco</label>
-							    <select class="form-control" name="residencia.bloco" id="bloco" th:field="*{residencia.bloco}" th:errorclass="is-invalid">
-							      <option value="">Selecione um bloco</option>
-							      <option th:each="bloco : ${bloco}" th:value="${bloco}" th:text="${bloco}"></option>
-							    </select>
-							    <div class="invalid-feedback" th:errors="*{residencia.bloco}"></div>
-						    </div>
-						    <div class="col-md-3">
-						    	<label for="sindico">Sindico</label>
-							    <select class="form-control" name="sindico" th:field="*{sindico}" id="sindico" th:errorclass="is-invalid">
-							    	<option value="">Selecione uma opção</option>
-									<option value="true">Sim</option>
-									<option value="false">Não</option>
-								</select>
-								<div class="invalid-feedback" th:errors="*{sindico}"></div>
-						    </div>
-					   	</div>
-									    
+					    <div class="row mb-3">
+					      	<div class="col-md-6">
+					      		<label for="observacao">Descrição</label>
+					          	<textarea th:field="*{observacao}" class="form-control" name="observacao" id="observacao"></textarea>
+					      	</div>
+				
+					    </div> 
 					
 						<div class="d-flex justify-content-end">
 					    	<button type="submit" class="btn btn-gold">Enviar</button>
@@ -95,13 +76,12 @@
 					</form>
 		        </div>
 		        
-		        <!-- Histório de cadastro -->
 		        <div class="card col-md-2 border border-secondary">
 		        	<div class="card-body">
 		        		<h4 class="text-center mb-5">Histórico</h4>
 		        		<ul class="list-group list-overflow">
-		        			<li class="list-group-item list-group-item-success mb-2 text-center">Igor</li>
-		        			<li class="list-group-item list-group-item-danger mb-2 text-center">Julio</li>
+		        			<li class="list-group-item list-group-item-success mb-2 text-center">André</li>
+		        			<li class="list-group-item list-group-item-danger mb-2 text-center">João</li>
 		        		</ul>
 		        	</div>
 		        </div>
@@ -111,13 +91,12 @@
 	    <script th:replace="~{base :: sidebar-script}"></script>
 	    <script>
 	    $(document).ready(function(){
-	    	  
 	    	  $('#telefone').mask('(00) 00000-0000');
 	    	  $('#cpf').mask('000.000.000-00');
 	    	  $('#residencia').mask('000');
 	    });
 	    
-	    $("#moradorForm").submit(function() {
+	    $("#usuarioExternoForm").submit(function() {
 	    	  $('#dataNasc').unmask();
 	    	  $('#telefone').unmask();
 	    	  $('#cpf').unmask();

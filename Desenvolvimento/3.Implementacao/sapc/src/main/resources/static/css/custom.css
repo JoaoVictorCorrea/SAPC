@@ -27,6 +27,18 @@
    height: auto;
 }
 
+.bg-gold {
+	background: linear-gradient(90deg, rgba(205,190,164,1) 19%, rgba(189,159,108,1) 44%, rgba(191,151,84,1) 100%);
+}
+
+.bg-gold1{
+	background: linear-gradient(90deg, rgba(209,171,106,1) 26%, rgba(189,159,108,1) 68%, rgba(191,151,84,1) 100%);
+}
+
+.bg-modal{
+	background-color: #e7e6e6 !important;
+}
+
 .icon {
   display: inline-block !important;
   width: 16px !important; 

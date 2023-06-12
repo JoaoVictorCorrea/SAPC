@@ -1,0 +1,222 @@
+<html>
+<head>
+	<head th:replace="~{base :: head}"></head>
+	<link rel="stylesheet" th:href="@{/css/home.css}" />
+</head>
+<body id="body-pd">
+	<div th:replace="~{base :: header}"></div>
+	<div th:replace="~{base :: sidebar}"></div>
+
+	<div class="container">
+		<section class="p-5">
+			<div class="row">
+				<div class="text-center">
+					<h1>SAPC</h1>
+					<p>Condomínio Serra do Japi</p>
+				</div>
+			</div>
+		</section>
+		<section class="pt-3">
+			<div class="mb-2 mt-3 d-flex justify-content-between">
+				<h4>Painél de avisos</h4>
+				<a href="#" class="btn btn-gold">Adicionar um novo aviso</a>
+			</div>
+			<div class="row dashboard-cards">
+				<div class="card col-md-4">
+					<div class="card-title">
+						<h2>
+							Garagem <small>Você possui 1 notificação ativa</small>
+						</h2>
+						<div class="task-count">1</div>
+					</div>
+					<div class="card-flap flap1">
+						<div class="card-description">
+							<ul class="task-list">
+								<li>Manutenção no Portão de saída <span>10/06</span></li>
+	<!-- 							<li>Sent Answer Pending <span>11%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>File Attchment Pending <span>100%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>Document Send Pending <span>7%</span> -->
+	<!-- 							</li> -->
+							</ul>
+						</div>
+						<div class="card-flap flap2">
+							<div class="card-actions">
+								<a class="btn" href="#">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card col-md-4">
+					<div class="card-title">
+						<h2>
+							Piscina <small>Você possui 0 notificações ativas</small>
+						</h2>
+						<div class="task-count">0</div>
+					</div>
+					<div class="card-flap flap1">
+						<div class="card-description">
+							<ul class="task-list">
+	<!-- 							<li>Sent Question Pending <span>59%</span> -->
+	<!-- 							</li> -->
+							</ul>
+						</div>
+						<div class="card-flap flap2">
+							<div class="card-actions">
+								<a class="btn" href="#">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card col-md-4">
+					<div class="card-title">
+						<h2>
+							Churrasqueira<small>Você possui 2 notificação ativa</small>
+						</h2>
+						<div class="task-count">2</div>
+					</div>
+					<div class="card-flap flap1">
+						<div class="card-description">
+							<ul class="task-list">
+								<li>Troca dos vidros <span>23/06</span>
+								</li>
+								<li>Limpeza da área<span>24/06</span>
+								</li>
+							</ul>
+						</div>
+						<div class="card-flap flap2">
+							<div class="card-actions">
+								<a class="btn" href="#">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card col-md-4">
+					<div class="card-title">
+						<h2>
+							Quadras esportivas<small>Você possui 0 notificação ativa</small>
+						</h2>
+						<div class="task-count">0</div>
+					</div>
+					<div class="card-flap flap1">
+						<div class="card-description">
+							<ul class="task-list">
+	<!-- 							<li>Sent Question Pending <span>59%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>Sent Answer Pending <span>11%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>File Attchment Pending <span>100%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>Document Send Pending <span>7%</span> -->
+	<!-- 							</li> -->
+							</ul>
+						</div>
+						<div class="card-flap flap2">
+							<div class="card-actions">
+								<a class="btn" href="#">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card col-md-4">
+					<div class="card-title">
+						<h2>
+							Salão de festas <small>Você possui 0 notificação ativa</small>
+						</h2>
+						<div class="task-count">0</div>
+					</div>
+					<div class="card-flap flap1">
+						<div class="card-description">
+							<ul class="task-list">
+	<!-- 							<li>Sent Question Pending <span>59%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>Sent Answer Pending <span>11%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>File Attchment Pending <span>100%</span> -->
+	<!-- 							</li> -->
+	<!-- 							<li>Document Send Pending <span>7%</span> -->
+	<!-- 							</li> -->
+							</ul>
+						</div>
+						<div class="card-flap flap2">
+							<div class="card-actions">
+								<a class="btn" href="#">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card col-md-4">
+					<div class="card-title">
+						<h2>
+							Portão de moradores<small>Você possui 1 notificação ativa</small>
+						</h2>
+						<div class="task-count">1</div>
+					</div>
+					<div class="card-flap flap1">
+						<div class="card-description">
+							<ul class="task-list">
+								<li>Adicionar reconhecimento facial <span>30/06</span>
+								</li>
+							</ul>
+						</div>
+						<div class="card-flap flap2">
+							<div class="card-actions">
+								<a class="btn" href="#">Close</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<script th:replace="~{base :: sidebar-script}"></script>
+	<script th:inline="javascript">
+	$(document).ready(function(){
+		  var zindex = 10;
+		  
+		  $("div.card").click(function(e){
+		    e.preventDefault();
+
+		    var isShowing = false;
+
+		    if ($(this).hasClass("d-card-show")) {
+		      isShowing = true
+		    }
+
+		    if ($("div.dashboard-cards").hasClass("showing")) {
+		      // a card is already in view
+		      $("div.card.d-card-show")
+		        .removeClass("d-card-show");
+
+		      if (isShowing) {
+		        // this card was showing - reset the grid
+		        $("div.dashboard-cards")
+		          .removeClass("showing");
+		      } else {
+		        // this card isn't showing - get in with it
+		        $(this)
+		          .css({zIndex: zindex})
+		          .addClass("d-card-show");
+
+		      }
+
+		      zindex++;
+
+		    } else {
+		      // no dashboard-cards in view
+		      $("div.dashboard-cards")
+		        .addClass("showing");
+		      $(this)
+		        .css({zIndex:zindex})
+		        .addClass("d-card-show");
+
+		      zindex++;
+		    }
+		    
+		  });
+		});	
+	</script>
+</body>
+</html>

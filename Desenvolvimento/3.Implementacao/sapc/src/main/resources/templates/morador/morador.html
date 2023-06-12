@@ -4,10 +4,18 @@
 	    <div th:replace="~{base :: header}"></div>
 	    <div th:replace="~{base :: sidebar}"></div>
 	    
-	   <section class="wrapper">
-	       	<div class="row">
-	            <div class="col-lg-12">
-	                <h3 class="pb-2 mt-4 mb-2 border-bottom">Parâmetros</h3>
+		<section class="wrapper">
+			
+			<!-- Parâmetros da url -->
+			<div class="row">
+				<div class="col-lg-12">
+	                <div class="d-flex justify-content-between">
+	            		<h3 class="pb-2 mt-4 mb-2 border-bottom">Parâmetros</h3>
+	                	<div id="mensagemAviso" class="alert d-none align-items-center gap-2 mt-3">
+	                		<i id="iconeAviso" class="bx"></i>
+	                		<span th:text="${mensagem}"></span>
+	                	</div>
+	            	</div>
 	                <nav aria-label="breadcrumb">
 		                <ol class="breadcrumb">
 		                    <li class="breadcrumb-item"><a class="black" th:href="@{/home}">Home</a></li>
@@ -16,6 +24,8 @@
 		          	</nav>
 	            </div>
         	</div>
+        	
+        	<!-- Painel com botão Filtrar -->
 		    <div class="row">
 		        <div class="col-lg-12">
 		            <section class="card mb-3">
@@ -35,8 +45,10 @@
 		            </section>
 		    	</div>
 		    </div>
+		    
+		    <!-- Tabela de Moradores -->
             <section class="card">
-
+            
                 <table id="tabela" class="table table-striped table-advance table-hover">
                     <tbody>
                     <tr>
@@ -58,77 +70,134 @@
                         <td th:text="${morador.residencia.bloco}"></td>
                         <td class="text-center">
                             <div class="btn-group">
-                            
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateModal">
-                                	<i class="bx bx-refresh"></i>
-                                </button>
-                                
-<!--                                 th:href="@{'/morador/editar/'+${morador.id}}" -->
                                 
                                 <!-- Update Modal -->
-								<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								  <div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <h5 class="modal-title" id="exampleModalLabel">Atualizar morador</h5>
-								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-								      </div>
-								      <div class="modal-body fs-5">
-								      	<form th:action="@{'/morador/update/' + ${morador.id}}" method="post">
-								      		<input type="hidden" th:value="${morador.id}"/>
-									    	<div class="row mb-3">
-										    	<div class="col-md-6">
-										         	<label for="nome">Nome completo</label>
-										        	<input type="text" class="form-control" id="nome" th:value="${morador.nome}">
-										      	</div>
-										      	<div class="col-md-6">
-										          	<label for="email">Email</label>
-										          	<input type="email" class="form-control"id="email" th:value="${morador.email}">
-										        </div>
-										    </div>
-									         <div class="row mb-3">
-										    	<div class="col-md-6">
-										        	<label for="company">CPF</label>
-										          	<input type="text" class="form-control" name="cpf" id="cpf">
-										      	</div>
-										 		<div class="col-md-6"> 
-											    	<label for="phone">Telefone</label>
-											        <input type="tel" class="form-control" name="telefone" id="telefone">
-										        </div>
-										    </div>
-									    </form>
-								      </div>
-								      <div class="modal-footer">
-								        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-								        <a th:href="@{'/morador/deletar/' + ${morador.id}}" class="btn btn-success">Sim</a>
-								      </div>
-								    </div>
-								  </div>
+								<a data-bs-toggle="modal" data-row="${morador}" class="btn btn-primary" th:attr="data-bs-target='#modal-editar'+${morador.id}"><i class="bx bx-refresh"></i></a>			
+								<div class="modal fade" th:id="modal-editar+${morador.id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content bg-modal">
+										<div class="modal-header">
+										  <h5 class="modal-title" id="exampleModalLabel">Atualizar morador</h5>
+										  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+								      	<form th:action="@{/morador/editar}" method="post">
+									    	<div class="modal-body fs-5">
+												<input type="hidden" name="id" th:value="${morador.id}"/>
+										    	<div class="row mb-3">
+											    	<div class="col-md-6">
+											         	<label for="nome">Nome completo</label>
+											        	<input type="text" class="form-control" th:value="${morador.nome}" id="nome" name="nome">
+											      	</div>
+											      	<div class="col-md-6">
+											          	<label for="email">Email</label>
+											          	<input type="email" class="form-control" id="email" name="email" th:value="${morador.email}">
+											        </div>
+											    </div>
+										         <div class="row mb-3">
+											    	<div class="col-md-6">
+											        	<label for="company">CPF</label>
+											          	<input type="text" class="form-control" name="cpf" id="cpf" th:value="${morador.cpf}">
+											      	</div>
+											 		<div class="col-md-6"> 
+												    	<label for="phone">Telefone</label>
+												        <input type="tel" class="form-control" name="telefone" id="telefone" th:value="${morador.telefone}">
+											        </div>
+											    </div>
+											    <div class="row mb-3">
+											    	<div class="col-md-6">
+											        	<label for="numero">Número da Residência</label>
+											          	<input type="number" class="form-control" name="residencia.numero" id="numero" th:value="${morador.residencia.numero}">
+											      	</div>
+											 		<div class="col-md-6"> 
+												    	<label for="bloco">Bloco</label>
+<!-- 												        <input type="text" class="form-control" name="residencia.bloco" id="bloco" th:value="${morador.residencia.bloco}"> -->
+												        <select class="form-control" id="bloco" name="residencia.bloco">
+													      <option th:text="${morador.residencia.bloco}"></option>
+													      <option th:each="bloco : ${bloco}" th:value="${bloco}" th:text="${bloco}" th:unless="${bloco == morador.residencia.bloco}"></option>
+													    </select>
+											        </div>
+											    </div>
+											    
+											    <div class="row mb-3">
+											    	<div class="col-md-6">
+											        	<label for="data">Data de Nascimento</label>
+											          	<input type="date" class="form-control" name="dataNasc" id="data" th:value="${morador.dataNasc}">
+											      	</div>
+											 		<div class="col-md-6"> 
+												    	<label for="sindico">Sindico</label>
+												        <select class="form-control" name="sindico" id="sindico">
+													    	<option th:text="${morador.sindico}"></option>
+															<option value="true" th:if="${morador.sindico == false or morador.sindico == null}">Sim</option>
+															<option value="false" th:if="${morador.sindico == true or morador.sindico == null}">Não</option>
+														</select>
+											        </div>
+											    </div>
+									      </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+									        <button type="submit" class="btn btn-success">Confirmar</button>
+										  </div>
+								      	</form>
+									</div>
+								</div>
 								</div>
                                 
-                                <a class="btn btn-success" href="#"><i class="bx bx-phone-call"></i></a>
+                                <!-- Call Modal -->
+                                <a data-bs-toggle="modal" data-row="${morador}" class="btn btn-success" th:attr="data-bs-target='#modal-solicitar'+${morador.id }"><i class="bx bx-phone-call"></i></a>			
+                                <div class="modal fade" th:id="modal-solicitar+${morador.id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								   <div class="modal-dialog">
+								      <div class="modal-content bg-modal">
+								         <div class="modal-header">
+								            <h5 class="modal-title" id="exampleModalLabel">Solicitar entrada</h5>
+								            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								         </div>
+								         <form th:action="@{/morador/solicitar}" method="post">
+								            <div class="modal-body fs-5">
+								               <input type="hidden" name="id" th:value="${morador.residencia.id}"/>
+								               <div class="row mb-3">
+								                  <div class="col-md-12">
+								                     <label for="exampleDataList" class="form-label">Nome do usuário externo</label>
+								                     <input type="text" class="form-control" id="nome" name="nome" list="sugestoes" autocomplete="off" placeholder="Digite o nome" oninput="buscarNomes(this.value)">
+								                     <datalist id="sugestoes"></datalist>
+								                  </div>
+								               </div>
+								               <div class="row mb-3">
+								                  <div class="col-md-12">
+								                     <label for="identificacao">Identificação</label>
+								                     <select class="form-control" id="identificacao" name="tipoUsuarioExterno">
+								                        <option value="">Selecione um tipo</option>
+								                        <option th:each="tipos : ${tipoUsuarioExterno}" th:value="${tipos}" th:text="${tipos}"></option>
+								                     </select>
+								                  </div>
+								               </div>
+								            </div>
+								            <div class="modal-footer">
+								               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+								               <button type="submit" class="btn btn-success">Confirmar</button>
+								            </div>
+								         </form>
+								      </div>
+								   </div>
+								</div>
                                 
-								<button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
-								    <i class="bx bx-trash"></i>
-								</button>
-								
-								 <!-- Delete Modal -->
-								<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-								  <div class="modal-dialog">
-								    <div class="modal-content">
-								      <div class="modal-header bg-danger text-light">
-								        <h5 class="modal-title" id="exampleModalLabel">Deletar morador</h5>
-								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <!-- Delete Modal -->
+                                <a data-bs-toggle="modal" data-row="${morador}" class="btn btn-danger" th:attr="data-bs-target='#modal-warning'+${morador.id }"><i class="bx bx-trash"></i></a>			
+								<div class="modal fade" th:id="modal-warning+${morador.id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								   <div class="modal-dialog">
+								      <div class="modal-content">
+								         <div class="modal-header bg-danger text-light">
+								            <h5 class="modal-title" id="exampleModalLabel">Deletar morador</h5>
+								            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								         </div>
+								         <div class="modal-body fs-5">
+								            Deseja realmente deletar esse morador?
+								         </div>
+								         <div class="modal-footer">
+								            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar</button>
+								            <a th:href="@{'/morador/deletar/' + ${morador.id}}" class="btn btn-danger">Sim</a>
+								         </div>
 								      </div>
-								      <div class="modal-body fs-5">
-								        Deseja realmente deletar esse morador?
-								      </div>
-								      <div class="modal-footer">
-								        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar</button>
-								        <a th:href="@{'/morador/deletar/' + ${morador.id}}" class="btn btn-danger">Sim</a>
-								      </div>
-								    </div>
-								  </div>
+								   </div>
 								</div>
 								
                             </div>
@@ -138,7 +207,6 @@
                 </table>
 
                 <footer class="card-footer d-flex justify-content-between">
-                    
                     <nav aria-label="Page navigation example">
                     	Total de itens [[${totalItems}]] : Página [[${currentPage}]] de [[${totalPages}]]
 	                    <ul class="pagination">
@@ -187,42 +255,89 @@
 	                    </ul>
 	               	</nav>
 
-					<div> 
-<!-- 						<button class="btn btn-gold mt-2" type="submit" id="btnAdicionarMorador" href="/morador/adicionar">Adicionar Morador</button> -->
-                       <a id="btnAdicionarMorador" class="btn btn-gold mt-2">
-                           Adicionar Novo Morador
-                       </a>
-		        	</div>
-		               	
+					<div><a id="btnAdicionarMorador" class="btn btn-gold mt-2">Adicionar Novo Morador</a></div>  	
                 </footer>
             </section>
-    <!--Content of the page-->
-    </section>
     
-   
-                                
+		</section>
+                    
 	    <script th:replace="~{base :: sidebar-script}"></script>
-	    <script>
+	    <script th:inline="javascript">
 	    
-	    
-	    $('#busca').on('keyup', function() {
-	    	  var termo = $(this).val().toLowerCase();
-	    	  
-	    	  $('#tabela tbody tr').each(function() {
-	    	    var linha = $(this);
-	    	    
-	    	    // Verificar se o termo de busca existe em algum dos campos da linha
-	    	    if (linha.text().toLowerCase().indexOf(termo) === -1) {
-	    	      linha.hide(); // Esconder a linha se não for encontrada
-	    	    } else {
-	    	      linha.show(); // Mostrar a linha se for encontrada
-	    	    }
-	    	  });
-	    });
-	    
+		// Redirecionamento de url
 	    $("#btnAdicionarMorador").on("click", function(){
 	    	window.location.href = "/morador/adicionar";
 	    })
+
+	    // Requisição Ajax para buscar nomes de Usuários Externos
+	    var timer;
+	    function buscarNomes(valor) {
+	      clearTimeout(timer);
+
+	      if (valor.length > 2) { 
+	        timer = setTimeout(function() {
+	          $.ajax({
+	            url: '/morador/buscar-usuario-externo',
+	            type: 'GET',
+	            data: {valor: valor},
+	            success: function(data) {
+	              atualizarSugestoes(data);
+	            }
+	          });
+	        }, 500);
+	      } else {
+	        limparSugestoes();
+	      }
+	    }
+
+	    function limparSugestoes() {
+	      var datalist = document.getElementById('sugestoes');
+	      datalist.innerHTML = '';
+	    }
+
+	    function atualizarSugestoes(nomes) {
+	      var datalist = document.getElementById('sugestoes');
+	      datalist.innerHTML = '';
+
+	      nomes.forEach(function(nome) {
+	        var option = document.createElement('option');
+	        option.value = nome;
+	        datalist.appendChild(option);
+	      });
+	    }
+	    
+	    // Mensagem de Aviso
+	    $(document).ready(function() {
+		    var urlParams = new URLSearchParams(window.location.search);
+		    var mensagemAviso = $('#mensagemAviso span').text();
+		    if (urlParams.has('success') && mensagemAviso !== '') {
+		        exibirMensagem('success');
+		    } else if (urlParams.has('erro') && mensagemAviso !== ''){
+		    	exibirMensagem('erro');
+		    }
+		
+		    function exibirMensagem(mensagem) {
+		    	 var $mensagemAviso = $('#mensagemAviso');
+		    	 var $iconeAviso = $('#iconeAviso');
+		    	 if(mensagem == 'success'){
+		    		 $mensagemAviso.removeClass('d-none').addClass('d-flex alert-success').fadeIn();
+		    		 $iconeAviso.addClass('bx-check-circle');
+		    		 setTimeout(function() {
+				        	$mensagemAviso.fadeOut(function() {
+				                $(this).removeClass('d-flex').addClass('d-none');
+				            });
+				     }, 5000)
+		    	 } else {
+		    		 $mensagemAviso.removeClass('d-none alert-success').addClass('d-flex alert-danger').fadeIn();
+		    		 $iconeAviso.addClass('bx-error');
+		    		 setTimeout(function() {
+				        	$mensagemAviso.fadeOut(function() {
+				                $(this).removeClass('d-flex').addClass('d-none');
+				            });
+				     }, 5000)
+		    	 }
+		    }
+		});
 
 	    </script>
 	</body>

@@ -1,0 +1,264 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body id="body-pd">
+	    <div th:replace="~{base :: header}"></div>
+		<div th:replace="~{base :: sidebar}"></div>
+	    
+		<section class="wrapper">
+	   
+			<!-- Parâmetros da url -->
+	       	<div class="row">
+	            <div class="col-lg-12">
+	            	<div class="d-flex justify-content-between">
+	            		<h3 class="pb-2 mt-4 mb-2 border-bottom">Parâmetros</h3>
+	                	<div id="mensagemAviso" class="alert d-none align-items-center gap-2 mt-3">
+	                		<i id="iconeAviso" class="bx"></i>
+	                		<span th:text="${mensagem}"></span>
+	                	</div>
+	            	</div>
+	                <nav aria-label="breadcrumb">
+		                <ol class="breadcrumb">
+		                    <li class="breadcrumb-item"><a class="black" th:href="@{/home}">Home</a></li>
+		                    <li class="breadcrumb-item" aria-current="page">Usuários Externos</li>
+		                </ol>
+		          	</nav>
+	            </div>
+        	</div>
+        	
+        	<!-- Painel com botão Filtrar -->
+		    <div class="row">
+		        <div class="col-lg-12">
+		            <section class="card mb-3">
+		                
+		                <div class="d-flex justify-content-between card-footer">
+		                	<h3 class="pt-3">Usuários Externos</h3>
+	                        <form th:action="@{/parameters/countries}" class="d-flex mt-3" >
+	                            <div class="pe-3">
+	                                <input type="text" name="keyword" class="form-control">
+	                            </div>
+	                            <div class="col-4">
+	                                <input type="submit" value="Filtrar" class="btn-success form-control">
+	                            </div>
+	                        </form>
+		               	</div>
+		                    
+		            </section>
+		    	</div>
+		    </div>
+            
+            <!-- Tabela de Usuários Externos -->
+            <section class="card">
+
+                <table id="tabela" class="table table-striped table-advance table-hover">
+                    <tbody>
+                    <tr>
+                        <th></th>
+                        <th><i class="bx bx-user-circle"></i> <a th:href="@{'/usuario-externo/page/' + ${currentPage} + '/nome?sortDir=' + ${reverseSortDir}}">Nome</a></th>
+                        <th><i class="bx bx-envelope"></i> <a th:href="@{/usuario-externo/page/{pageNumber}/{field}(pageNumber=${currentPage}, field='email')} + '?sortDir=' + ${reverseSortDir}">Email</a></th>
+                        
+                        <th><i class="bx bx-phone"></i> <a th:href="@{/usuario-externo/page/{pageNumber}/{field}(pageNumber=${currentPage}, field='telefone')} + '?sortDir=' + ${reverseSortDir}">Telefone</a></th>
+                        <th><i class='bx bx-id-card'></i> <a th:href="@{'/usuario-externo/page/' + ${currentPage} + '/cpf?sortDir=' + ${reverseSortDir}}">CPF</a></th>
+                        <th><i class='bx bx-buildings'></i> <a th:href="@{'/usuario-externo/page/' + ${currentPage} + '/empresa?sortDir=' + ${reverseSortDir}}">Empresa</a></th>
+                        <th><i class="bx bx-search"></i><a href="">Ações</a></th>
+                    </tr>
+                    <tr th:each="usuario:${listUsuariosExternos}">
+                        <td></td>
+                        <td th:text="${usuario.nome}"></td>
+                        <td th:text="${usuario.email}"></td>
+                        <td th:text="${usuario.telefone}"></td>
+                        <td th:text="${usuario.cpf}"></td>
+                        <td th:text="${usuario.empresa}"></td>
+                        <td class="text-center">
+                            <div class="btn-group">
+                            
+                                <a data-bs-toggle="modal" data-row="${usuario}" class="btn btn-primary" th:attr="data-bs-target='#modal-editar'+${usuario.id}"><i class="bx bx-refresh"></i></a>			
+                                
+                                <!-- Update Modal -->
+								<div class="modal fade" th:id="modal-editar+${usuario.id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								  <div class="modal-dialog modal-lg">
+								    <div class="modal-content bg-modal">
+								      <div class="modal-header">
+								        <h5 class="modal-title fw-bold" id="exampleModalLabel">Atualizar usuário externo</h5>
+								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								      </div>
+								      <form th:action="@{/usuario-externo/editar}" method="post">
+								      	<div class="modal-body fs-5">
+								      		<input type="hidden" name="id" th:value="${usuario.id}"/>
+									    	<div class="row mb-3">
+										    	<div class="col-md-6">
+										         	<label for="nome">Nome completo</label>
+										        	<input type="text" class="form-control" name="nome" id="nome"th:value="${usuario.nome}">
+										      	</div>
+										      	<div class="col-md-6">
+										          	<label for="email">Email</label>
+										          	<input type="email" class="form-control" name="email" id="email" th:value="${usuario.email}">
+										        </div>
+										    </div>
+									         <div class="row mb-3">
+										    	<div class="col-md-6">
+										        	<label for="cpf">CPF</label>
+										          	<input type="text" class="form-control" name="cpf" id="cpf" th:value="${usuario.cpf}">
+										      	</div>
+										 		<div class="col-md-6"> 
+											    	<label for="phone">Telefone</label>
+											        <input type="tel" class="form-control" name="telefone" id="telefone" th:value="${usuario.telefone}">
+										        </div>
+										    </div>
+									    	
+									    	<div class="row mb-3">
+										    	<div class="col-md-6">
+										        	<label for="data">Data de Nascimento</label>
+										          	<input type="date" class="form-control" name="dataNasc" id="data" th:value="${usuario.dataNasc}">
+										      	</div>
+										        <div class="col-md-6">
+										        	<label for="empresa">Empresa</label>
+										          	<input type="text" class="form-control" name="empresa" id="empresa" th:value="${usuario.empresa}">
+										   		</div>
+											</div>
+											
+											<div class="row mt-4 mb-3">
+										      	<div class="col-md-12"> 
+											    	<label for="descricao">Observação</label>
+											        <textarea class="form-control" name="observacao" id="observacao" th:text="${usuario.observacao}"></textarea>
+										        </div>
+										    </div>
+									    	
+								      	  </div>
+									      <div class="modal-footer">
+									        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+									        <button type="submit" class="btn btn-success">Confirmar</button>
+									      </div>
+								      </form>
+								    </div>
+								  </div>
+								</div>
+								
+								 <!-- Delete Modal -->
+								 <a data-bs-toggle="modal" data-row="${usuario}" class="btn btn-danger" th:attr="data-bs-target='#modal-warning'+${usuario.id }"><i class="bx bx-trash"></i></a>			
+								<div class="modal fade" th:id="modal-warning+${usuario.id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								  <div class="modal-dialog">
+								    <div class="modal-content">
+								      <div class="modal-header bg-danger text-light">
+								        <h5 class="modal-title" id="exampleModalLabel">Deletar usuario</h5>
+								        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								      </div>
+								      <div class="modal-body fs-5">
+								        Deseja realmente deletar esse usuario?
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar</button>
+								        <a th:href="@{'/usuario-externo/deletar/' + ${usuario.id}}" class="btn btn-danger">Sim</a>
+								      </div>
+								    </div>
+								  </div>
+								</div>
+								
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <footer class="card-footer d-flex justify-content-between">
+                    
+                    <nav aria-label="Page navigation example">
+                    	Total de itens [[${totalItems}]] : Página [[${currentPage}]] de [[${totalPages}]]
+	                    <ul class="pagination">
+	                    	<li class="page-item">
+                                <a class="page-link" th:if="${currentPage > 1}" th:href="${sortDir != null and field != null}
+	                                ? @{/usuario-externo/page/1/{field}(field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+	                                : @{/usuario-externo/page/1}">
+	                                Primeira
+                                </a>
+                                <span class="page-link" th:unless="${currentPage > 1}">Primeira</span>
+	                    	</li>
+   						 	<li class="page-item">
+   						 		<a class="page-link" th:if="${currentPage > 1}" th:href="${sortDir != null and field != null}
+	   						 		? @{/usuario-externo/page/{pageNumber}/{field}(pageNumber=${currentPage - 1},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+	   						 		: @{'/usuario-externo/page/' + ${currentPage - 1}}">
+	   						 		Anterior
+   						 		</a>
+                                <span class="page-link" th:unless="${currentPage > 1}">Anterior</span>
+   						 	</li>
+	                    	<li class="page-item d-flex">
+	                    		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                                     <a class="page-link" th:if="${i != 0}" th:href="${sortDir != null and field != null}
+										? @{/usuario-externo/page/{pageNumber}/{field}(pageNumber=${i},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+										: @{/usuario-externo/page/{pageNumber}(pageNumber=${i})}">
+										[[${i}]]
+									</a>
+                                </span>
+                            </li>
+						    <li class="page-item">
+						    	<a class="page-link" th:if="${currentPage < totalPages}" th:href="${sortDir != null and field != null}
+						    		? @{/usuario-externo/page/{pageNumber}/{field}(pageNumber=${currentPage + 1},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+						    		: @{'/usuario-externo/page/' + ${currentPage + 1}}">
+						    		Próximo
+						    	</a>
+                                <span class="page-link" th:unless="${currentPage < totalPages}">Próximo</span>
+						    </li>
+						    <li class="page-item">
+						    	<a class="page-link" th:if="${currentPage < totalPages}" th:href="${sortDir != null and field != null}
+							    	? @{/usuario-externo/page/{pageNumber}/{field}(pageNumber=${totalPages},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+							    	: @{'/usuario-externo/page/' + ${totalPages}}">
+							    	Ultima
+						    	</a>
+                                <span class="page-link" th:unless="${currentPage < totalPages}">Ultima</span>
+						    </li>
+	                    									
+	                    </ul>
+	               	</nav>
+
+					<div> 
+                       <a id="btnAdicionarUsuarioExterno" class="btn btn-gold mt-2">Adicionar Novo Usuário Externo</a>
+		        	</div>
+		               	
+                </footer>
+            </section>
+    </section>
+    
+   
+                                
+	    <script th:replace="~{base :: sidebar-script}"></script>
+	    <script>
+	    
+	    $("#btnAdicionarUsuarioExterno").on("click", function(){
+	    	window.location.href = "/usuario-externo/adicionar";
+	    })
+	    
+	    // Mensagem de aviso
+		$(document).ready(function() {
+			var urlParams = new URLSearchParams(window.location.search);
+		    var mensagemAviso = $('#mensagemAviso span').text();
+		    if (urlParams.has('success') && mensagemAviso !== '') {
+		        exibirMensagem('success');
+		    } else if (urlParams.has('erro') && mensagemAviso !== ''){
+		    	exibirMensagem('erro');
+		    }
+		
+		    function exibirMensagem(mensagem) {
+		    	 var $mensagemAviso = $('#mensagemAviso');
+		    	 var $iconeAviso = $('#iconeAviso');
+		    	 if(mensagem == 'success'){
+		    		 $mensagemAviso.removeClass('d-none').addClass('d-flex alert-success').fadeIn();
+		    		 $iconeAviso.addClass('bx-check-circle');
+		    		 setTimeout(function() {
+				        	$mensagemAviso.fadeOut(function() {
+				                $(this).removeClass('d-flex').addClass('d-none');
+				            });
+				     }, 5000)
+		    	 } else {
+		    		 $mensagemAviso.removeClass('d-none alert-success').addClass('d-flex alert-danger').fadeIn();
+		    		 $iconeAviso.addClass('bx-error');
+		    		 setTimeout(function() {
+				        	$mensagemAviso.fadeOut(function() {
+				                $(this).removeClass('d-flex').addClass('d-none');
+				            });
+				     }, 5000)
+		    	 }
+		    }
+		});
+
+	    </script>
+	</body>
+</html>

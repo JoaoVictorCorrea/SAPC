@@ -1,0 +1,189 @@
+<html>
+	<head th:replace="~{base :: head}"></head>
+	<body id="body-pd">
+	    <div th:replace="~{base :: header}"></div>
+	    <div th:replace="~{base :: sidebar}"></div>
+	    
+	    <section class="wrapper">
+			
+			<!-- Parâmetros da url -->
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="d-flex justify-content-between">
+	            		<h3 class="pb-2 mt-4 mb-2 border-bottom">Parâmetros</h3>
+	                	<div id="mensagemAviso" class="alert d-none align-items-center gap-2 mt-3">
+	                		<i id="iconeAviso" class="bx"></i>
+	                		<span th:text="${mensagem}"></span>
+	                	</div>
+	            	</div>
+	                <nav aria-label="breadcrumb">
+		                <ol class="breadcrumb">
+		                    <li class="breadcrumb-item"><a class="black" th:href="@{/home}">Home</a></li>
+		                    <li class="breadcrumb-item" aria-current="page">Solicitações</li>
+		                </ol>
+		          	</nav>
+	            </div>
+        	</div>
+        	
+        	<!-- Painel com botão Filtrar -->
+		    <div class="row">
+		        <div class="col-lg-12">
+		            <section class="card mb-3">
+		                
+		                <div class="d-flex justify-content-between card-footer">
+		                	<h3 class="pt-3">Solicitações</h3>
+	                        <form th:action="@{/parameters/countries}" class="d-flex mt-3" >
+	                            <div class="pe-3">
+	                                <input type="text" name="keyword" class="form-control">
+	                            </div>
+	                            <div class="col-4">
+	                                <input type="submit" value="Filtrar" class="btn-success form-control">
+	                            </div>
+	                        </form>
+		               	</div>
+		                    
+		            </section>
+		    	</div>
+		    </div>
+		    
+		    <!-- Tabela de Solicitações -->
+            <section class="card">
+            
+                <table id="tabela" class="table table-striped table-advance table-hover">
+                    <tbody>
+                    <tr>
+                        <th></th>
+                        <th><i class="bx bx-user-circle"></i> <a th:href="@{'/solicitacao/page/' + ${currentPage} + '/id?sortDir=' + ${reverseSortDir}}">Usuário Externo</a></th>
+                        <th><i class="bx bx-clipboard"></i> <a href="#">Tipo</a></th>
+                        <th><i class="bx bx-time"></i> <a href="#">Data Solicitação</a></th>
+                        <th><i class="bx bx-home-alt-2"></i> <a href="#">Número da Residência</a></th>
+                        <th><i class="bx bx-building"></i> <a th:href="@{/solicitacao/page/{pageNumber}/{field}(pageNumber=${currentPage}, field='dataEntrada')} + '?sortDir=' + ${reverseSortDir}">Bloco</a></th>
+                        <th><i class="bx bx-hourglass"></i> <a th:href="@{'/solicitacao/page/' + ${currentPage} + '/dataSaida?sortDir=' + ${reverseSortDir}}">Status</a></th>
+                        <th><i class="bx bx-search"></i><a href="">Ações</a></th>
+                    </tr>
+                    <tr th:each="solicitacao :${listaSolicitacoes}">
+                        <td></td>
+                        <td th:text="${solicitacao.usuarioExterno.nome}"></td>
+	                    <td th:text="${solicitacao.tipoUsuarioExterno}"></td>	
+                        <td th:text="${#temporals.format(solicitacao.dataSolicitacao, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                        <td th:text="${solicitacao.residencia.numero}"></td>
+                        <td th:text="${solicitacao.residencia.bloco}"></td>
+                        <td th:switch="${solicitacao.statusSolicitacao.name()}">
+                        	<span th:case="'PENDENTE'" class="fw-bold text-warning" th:text="${solicitacao.statusSolicitacao}"></span>
+                        	<span th:case="'AUTORIZADO'" class="fw-bold text-success" th:text="${solicitacao.statusSolicitacao}"></span>
+                        	<span th:case="'RECUSADO'" class="fw-bold text-danger" th:text="${solicitacao.statusSolicitacao}"></span>
+                        </td>
+                        <td class="text-center">
+                            <a data-bs-toggle="modal" data-row="${solicitacao}" class="btn btn-danger" th:attr="data-bs-target='#modal-warning'+${solicitacao.id }"><i class="bx bx-trash"></i></a>			
+							<div class="modal fade" th:id="modal-warning+${solicitacao.id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							   <div class="modal-dialog">
+							      <div class="modal-content">
+							         <div class="modal-header bg-danger text-light">
+							            <h5 class="modal-title" id="exampleModalLabel">Deletar solicitação</h5>
+							            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							         </div>
+							         <div class="modal-body fs-5">
+							            Deseja realmente deletar essa Solicitação?
+							         </div>
+							         <div class="modal-footer">
+							            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Fechar</button>
+							            <a th:href="@{'/solicitacao/deletar/' + ${solicitacao.id}}" class="btn btn-danger">Sim</a>
+							         </div>
+							      </div>
+							   </div>
+							</div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <footer class="card-footer d-flex justify-content-between">
+                    <nav aria-label="Page navigation example">
+                    	Total de itens [[${totalItems}]] : Página [[${currentPage}]] de [[${totalPages}]]
+	                    <ul class="pagination">
+	                    	<li class="page-item">
+                                <a class="page-link" th:if="${currentPage > 1}" th:href="${sortDir != null and field != null}
+	                                ? @{/solicitacao/page/1/{field}(field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+	                                : @{/solicitacao/page/1}">
+	                                Primeira
+                                </a>
+                                <span class="page-link" th:unless="${currentPage > 1}">Primeira</span>
+	                    	</li>
+   						 	<li class="page-item">
+   						 		<a class="page-link" th:if="${currentPage > 1}" th:href="${sortDir != null and field != null}
+	   						 		? @{/solicitacao/page/{pageNumber}/{field}(pageNumber=${currentPage - 1},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+	   						 		: @{'/solicitacao/page/' + ${currentPage - 1}}">
+	   						 		Anterior
+   						 		</a>
+                                <span class="page-link" th:unless="${currentPage > 1}">Anterior</span>
+   						 	</li>
+	                    	<li class="page-item d-flex">
+	                    		<span th:each="i: ${#numbers.sequence(1, totalPages)}">
+                                     <a class="page-link" th:href="${sortDir != null and field != null}
+										? @{/solicitacao/page/{pageNumber}/{field}(pageNumber=${i},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+										: @{/solicitacao/page/{pageNumber}(pageNumber=${i})}">
+										[[${i}]]
+									</a>
+                                </span>
+                            </li>
+						    <li class="page-item">
+						    	<a class="page-link" th:if="${currentPage < totalPages}" th:href="${sortDir != null and field != null}
+						    		? @{/solicitacao/page/{pageNumber}/{field}(pageNumber=${currentPage + 1},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+						    		: @{'/solicitacao/page/' + ${currentPage + 1}}">
+						    		Próximo
+						    	</a>
+                                <span class="page-link" th:unless="${currentPage < totalPages}">Próximo</span>
+						    </li>
+						    <li class="page-item">
+						    	<a class="page-link" th:if="${currentPage < totalPages}" th:href="${sortDir != null and field != null}
+							    	? @{/solicitacao/page/{pageNumber}/{field}(pageNumber=${totalPages},field=${field},sortDir=${sortDir != null ? sortDir : reverseSortDir})}
+							    	: @{'/solicitacao/page/' + ${totalPages}}">
+							    	Ultima
+						    	</a>
+                                <span class="page-link" th:unless="${currentPage < totalPages}">Ultima</span>
+						    </li>
+	                    									
+	                    </ul>
+	               	</nav> 	
+                </footer>
+            </section>
+    
+		</section>
+	    
+	    <script th:replace="~{base :: sidebar-script}"></script>
+	    <script>
+		 	// Mensagem de Aviso
+		    $(document).ready(function() {
+			    var urlParams = new URLSearchParams(window.location.search);
+			    var mensagemAviso = $('#mensagemAviso span').text();
+			    if (urlParams.has('success') && mensagemAviso !== '') {
+			        exibirMensagem('success');
+			    } else if (urlParams.has('erro') && mensagemAviso !== ''){
+			    	exibirMensagem('erro');
+			    }
+			
+			    function exibirMensagem(mensagem) {
+			    	 var $mensagemAviso = $('#mensagemAviso');
+			    	 var $iconeAviso = $('#iconeAviso');
+			    	 if(mensagem == 'success'){
+			    		 $mensagemAviso.removeClass('d-none').addClass('d-flex alert-success').fadeIn();
+			    		 $iconeAviso.addClass('bx-check-circle');
+			    		 setTimeout(function() {
+					        	$mensagemAviso.fadeOut(function() {
+					                $(this).removeClass('d-flex').addClass('d-none');
+					            });
+					     }, 5000)
+			    	 } else {
+			    		 $mensagemAviso.removeClass('d-none alert-success').addClass('d-flex alert-danger').fadeIn();
+			    		 $iconeAviso.addClass('bx-error');
+			    		 setTimeout(function() {
+					        	$mensagemAviso.fadeOut(function() {
+					                $(this).removeClass('d-flex').addClass('d-none');
+					            });
+					     }, 5000)
+			    	 }
+			    }
+			});
+	    </script>
+	</body>
+</html>

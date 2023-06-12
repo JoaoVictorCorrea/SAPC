@@ -7,9 +7,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 
-import br.com.sapc.dtos.MoradorDto;
 import br.com.sapc.entities.Morador;
-import br.com.sapc.enums.TipoBloco;
 import jakarta.validation.Valid;
 
 public interface MoradorService {
@@ -22,11 +20,13 @@ public interface MoradorService {
 
 	Sort getSortByField(String field, String direction);
 
-	List<TipoBloco> findAllBlocos();
-
-	void adicionarMorador(@Valid MoradorDto moradorDto);
+	void adicionarMorador(@Valid Morador morador);
 	
 	Optional<Morador> findById(Long id);
 	
 	void delete(Morador morador);
+
+	List<String> buscarNomes(String valor);
+
+	Morador findByNome(String nome);
 }

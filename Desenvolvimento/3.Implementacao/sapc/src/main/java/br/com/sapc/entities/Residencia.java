@@ -11,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "tb_residencia")
@@ -20,9 +21,11 @@ public class Residencia {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotNull(message = "Número da residência inválido")
 	private Integer numero;
 	
 	@Enumerated(EnumType.STRING)
+	@NotNull(message = "Bloco inválido")
 	private TipoBloco bloco;
 	
 	@OneToMany(mappedBy = "residencia")

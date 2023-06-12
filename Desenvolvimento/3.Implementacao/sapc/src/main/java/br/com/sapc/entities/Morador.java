@@ -13,6 +13,10 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "tb_morador")
@@ -22,27 +26,38 @@ public class Morador{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	@NotBlank(message = "Nome Completo inválido")
 	private String nome;
 	
 	@Column(unique = true)
+	@NotBlank(message = "Endereço de e-mail inválido")
 	private String email;
 	
 	@Column(unique = true)
+	@NotBlank(message = "Cpf inválido")
+	@Size(min = 11, max = 11, message = "Cpf inválido")
 	private String cpf;
+	
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Data de Nascimento inválida")
 	private LocalDate dataNasc;
+	
 	@Column(unique = true)
+	@NotBlank(message = "Telefone inválido")
+	@Size(min = 10, max = 11, message = "Telefone inválido")
 	private String telefone;
 	
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "residencia_id")
+	@Valid
 	private Residencia residencia;
 	
+	@NotNull(message = "Escolha uma opção válida")
 	private Boolean sindico;
 	private String senha;
 	
 	@Column(unique = true)
-	private String codigo;
+	private String pin;
 
 	public Long getId() {
 		return id;
@@ -116,13 +131,14 @@ public class Morador{
 		this.residencia = residencia;
 	}
 
-	public String getCodigo() {
-		return codigo;
+	public String getPin() {
+		return pin;
 	}
 
-	public void setCodigo(String codigo) {
-		this.codigo = codigo;
+	public void setPin(String pin) {
+		this.pin = pin;
 	}
+
 	
 	
 	
