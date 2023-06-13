@@ -74,7 +74,8 @@
                         	<span th:case="'RECUSADO'" class="fw-bold text-danger" th:text="${solicitacao.statusSolicitacao}"></span>
                         </td>
                         <td class="text-center">
-                            <a data-bs-toggle="modal" data-row="${solicitacao}" class="btn btn-danger" th:attr="data-bs-target='#modal-warning'+${solicitacao.id }"><i class="bx bx-trash"></i></a>			
+                            <a th:if ="${solicitacao.statusSolicitacao.name() == 'PENDENTE'}" data-bs-toggle="modal" data-row="${solicitacao}" class="btn btn-danger" th:attr="data-bs-target='#modal-warning'+${solicitacao.id }"><i class="bx bx-trash"></i></a>
+                            <a th:if ="${solicitacao.statusSolicitacao.name() != 'PENDENTE'}" data-bs-toggle="modal" data-row="${solicitacao}" class="btn btn-secondary pe-none" th:attr="data-bs-target='#modal-warning'+${solicitacao.id }"><i class="bx bx-trash"></i></a>		
 							<div class="modal fade" th:id="modal-warning+${solicitacao.id }" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							   <div class="modal-dialog">
 							      <div class="modal-content">

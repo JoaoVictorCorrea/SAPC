@@ -72,7 +72,7 @@
                         <td th:text="${#temporals.format(fluxo.dataSaida, 'dd/MM/yyyy HH:mm:ss')}"></td>
                         <td class="text-center">
                             <a th:if="${fluxo.dataSaida == null}" class="btn btn-success btn-sm" th:href="@{'/fluxo/adicionar-saida/' + ${fluxo.id}}" role="button">Adicionar Saída</a>
-                            <a th:if="${fluxo.dataSaida != null}" class="btn btn-secondary btn-sm ">Adicionar Saída</a>
+                            <a th:if="${fluxo.dataSaida != null}" class="btn btn-secondary btn-sm pe-none">Adicionar Saída</a>
                         </td>
                     </tr>
                     </tbody>
