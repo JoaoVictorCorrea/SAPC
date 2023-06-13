@@ -17,5 +17,5 @@
     <string name="senha_nova">Senha nova</string>
     <string name="enviar">Enviar</string>
     <string name="confirmar">Confirmar senha</string>
-    <string name="soli">Olá, -Morador-, o -Usuario- está solicitando acesso para -Tipo-</string>
+    <string name="soli">Olá, -Morador-, -Usuario- está solicitando acesso para -Tipo-</string>
 </resources>

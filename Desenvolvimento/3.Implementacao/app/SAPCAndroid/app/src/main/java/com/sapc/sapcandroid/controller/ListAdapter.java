@@ -13,7 +13,11 @@ import androidx.annotation.Nullable;
 
 import com.sapc.sapcandroid.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class ListAdapter extends BaseAdapter {
 
@@ -55,15 +59,25 @@ public class ListAdapter extends BaseAdapter {
         TextView status = convertView.findViewById(R.id.txtStatus);
 
         userSolicName.setText(solicitacao.usuario_externo_nome);
-        userTypeName.setText(solicitacao.tipo);
-        data.setText(solicitacao.data);
+        String tipoFormatado = solicitacao.tipo.replace("_", " ");
+        userTypeName.setText(tipoFormatado);
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS", Locale.getDefault());
+        SimpleDateFormat outputFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy", Locale.getDefault());
+        try {
+            Date date = inputFormat.parse(solicitacao.data);
+            String dataFormatada = outputFormat.format(date);
+            data.setText(dataFormatada);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            data.setText(solicitacao.data);
+        }
         status.setText(solicitacao.status);
         if(solicitacao.status.equals("AUTORIZADO")){
             status.setTextColor(Color.parseColor("#6AFF00"));
         } else if (solicitacao.status.equals("RECUSADO")) {
             status.setTextColor(Color.parseColor("#FF0000"));
         }else {
-            status.setTextColor(Color.parseColor("#B5B5B5"));
+            status.setTextColor(Color.parseColor("#EDFF00"));
         }
 
         return convertView;

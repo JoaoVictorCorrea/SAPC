@@ -48,7 +48,7 @@ public class solicitacaotela extends AppCompatActivity {
         }
 
         txtSoli = findViewById(R.id.txtSoli);
-        txtSoli.setText("Olá " + nome +", o "+ usuario + " está solicitando acesso para " + tipo);
+        txtSoli.setText("Olá " + nome +", "+ usuario + " está solicitando acesso para " + tipo);
 
         btnAceitar = findViewById(R.id.btnAceitar);
         btnRecusar = findViewById(R.id.btnRecusar);
