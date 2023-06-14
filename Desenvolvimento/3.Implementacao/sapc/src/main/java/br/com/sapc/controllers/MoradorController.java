@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.sapc.entities.Morador;
+import br.com.sapc.entities.Residencia;
 import br.com.sapc.entities.SolicitacaoDeEntrada;
 import br.com.sapc.entities.UsuarioExterno;
 import br.com.sapc.enums.StatusSolicitacao;
@@ -117,7 +118,17 @@ public class MoradorController {
 		}
 		
 		morador.setSenha(morador.getCpf());
-		moradorService.adicionarMorador(morador);
+		
+		Optional<Residencia> residenciaOptional = residenciaService.findByResidenciaNumeroBloco(morador.getResidencia().getNumero(), 
+				morador.getResidencia().getBloco());
+		
+		if(residenciaOptional.isPresent()) {
+			morador.setResidencia(residenciaOptional.get());
+			moradorService.adicionarMorador(morador);
+		} else {
+			moradorService.adicionarMorador(morador);
+		}
+
 		redirectAttributes.addFlashAttribute("mensagem", "Cadastrado com sucesso!");
 		return "redirect:/morador?success";
 	}
